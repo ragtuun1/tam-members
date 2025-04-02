@@ -1,0 +1,56 @@
+<div class="container">
+  <h1>2025 TAM Membership Management</h1>
+  <p>Total Guests: {{ totalGuests }}</p>
+  <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+  <input
+    type="text"
+    placeholder="Search by Name, Email, or Phone"
+    [(ngModel)]="searchQuery"
+  />
+  <table>
+    <thead>
+      <tr>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Email Address</th>
+        <th>Phone no</th>
+        <th>Membership Level</th>
+        <th>Payment Mode</th>
+        <th>Checked In</th>
+        <th>Adults</th>
+        <th>Kids</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of filteredData; let i = index">
+        <td>{{ record["Last Name"] }}</td>
+        <td>{{ record["First Name"] }}</td>
+        <td>{{ record["Email Address"] }}</td>
+        <td>{{ record["Phone no"] }}</td>
+        <td>{{ record["Membership Level"] }}</td>
+        <td>{{ record["Payment Mode"] }}</td>
+        <td>
+          <input
+            type="checkbox"
+            [(ngModel)]="record.CheckedIn"
+            (change)="updateRecord(i, 'CheckedIn', $event)"
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="record.Adults"
+            (change)="updateRecord(i, 'Adults', $event)"
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="record.Kids"
+            (change)="updateRecord(i, 'Kids', $event)"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
