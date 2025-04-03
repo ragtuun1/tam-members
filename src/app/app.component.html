@@ -1,7 +1,11 @@
+<header>
+  <img src="assets/Tam_headder.jpg" alt="Header Image" class="header-image" />
+</header>
 <div class="container">
   <h1>2025 TAM Membership Management</h1>
   <p>Total Guests: {{ totalGuests }}</p>
-  <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+  <!--<input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" /> -->
+  <button (click)="loadData()">Load Data</button>
   <input
     type="text"
     placeholder="Search by Name, Email, or Phone"
