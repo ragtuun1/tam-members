@@ -28,6 +28,9 @@ jobs:
           npm install
           npm run build --prod
 
+      - name: Copy web.config to dist folder
+        run: cp web.config dist/tam-members/
+
       - name: Zip artifact for deployment
         run: zip -r release.zip ./dist/tam-members/
 
