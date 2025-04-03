@@ -7,6 +7,10 @@
     placeholder="Search by Name, Email, or Phone"
     [(ngModel)]="searchQuery"
   />
+
+  <button (click)="openModal()">Add New Record</button>
+  <button (click)="exportToExcel()">Save to Excel</button>
+
   <table>
     <thead>
       <tr>
@@ -37,20 +41,105 @@
           />
         </td>
         <td>
-          <input
-            type="number"
-            [(ngModel)]="record.Adults"
-            (change)="updateRecord(i, 'Adults', $event)"
-          />
+          <select
+            [(ngModel)]="record['Adults']"
+            (change)="updateRecord(record, 'Adults', record['Adults'])"
+          >
+            <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">
+              {{ num }}
+            </option>
+          </select>
         </td>
         <td>
-          <input
-            type="number"
-            [(ngModel)]="record.Kids"
-            (change)="updateRecord(i, 'Kids', $event)"
-          />
+          <select
+            [(ngModel)]="record['Kids']"
+            (change)="updateRecord(record, 'Kids', record['Kids'])"
+          >
+            <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">
+              {{ num }}
+            </option>
+          </select>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Modal Popup -->
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <h2>Add New Record</h2>
+    <label
+      >Last Name:
+      <input
+        class="modal-input"
+        type="text"
+        [(ngModel)]="newRecord['Last Name']"
+    /></label>
+    <label
+      >First Name:
+      <input
+        class="modal-input"
+        type="text"
+        [(ngModel)]="newRecord['First Name']"
+    /></label>
+    <label
+      >Email Address:
+      <input
+        class="modal-input"
+        type="text"
+        [(ngModel)]="newRecord['Email Address']"
+    /></label>
+    <label
+      >Phone No:
+      <input
+        class="modal-input"
+        type="text"
+        [(ngModel)]="newRecord['Phone no']"
+    /></label>
+    <label
+      >Membership Level:
+      <select class="modal-input" [(ngModel)]="newRecord['Membership Level']">
+        <option value="Package/Family ($125)">Package/Family ($125)</option>
+        <option value="Package/Couple ($100)">Package/Couple ($100)</option>
+        <option value="Package/LifeMemberFamily ($100)">
+          Package/LifeMemberFamily ($100)
+        </option>
+        <option value="Bangaru Kutumbam ($300)">Bangaru Kutumbam ($300)</option>
+        <option value="Membership ($25)">Membership ($25)</option>
+      </select>
+    </label>
+    <label
+      >Payment Mode:
+      <select class="modal-input" [(ngModel)]="newRecord['Payment Mode']">
+        <option value="Cash">Cash</option>
+        <option value="Stripe">Stripe</option>
+        <option value="Venmo">Venmo</option>
+        <option value="Zelle">Zelle</option>
+        <option value="Check">Check</option>
+      </select>
+    </label>
+    <label
+      >Checked In: <input type="checkbox" [(ngModel)]="newRecord.CheckedIn"
+    /></label>
+    <label
+      >Adults:
+      <select [(ngModel)]="newRecord.Adults">
+        <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">
+          {{ num }}
+        </option>
+      </select>
+    </label>
+    <label
+      >Kids:
+      <select [(ngModel)]="newRecord.Kids">
+        <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">
+          {{ num }}
+        </option>
+      </select>
+    </label>
+
+    <button (click)="addNewRecord()">Add</button>
+    <button (click)="closeModal()">Cancel</button>
+  </div>
 </div>
