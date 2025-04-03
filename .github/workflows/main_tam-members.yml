@@ -57,7 +57,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d dist/tam-members
+        run: unzip release.zip -d dist/tam-members/browser/
 
       - name: Login to Azure
         uses: azure/login@v2
