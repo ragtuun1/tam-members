@@ -14,12 +14,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 export class AppComponent {
   data: any[] = [];
   searchQuery: string = '';
+  totalAdultGuests: number = 0;
+  totalKidsGuests: number = 0;
   totalGuests: number = 0;
 
   isModalOpen: boolean = false;
   newRecord: any = {};
 
   filePath: string = 'assets/MembershipData.xlsx';
+  sponsorsfilePath: string = 'assets/SponsorData.xlsx';
 
   constructor(private http: HttpClient) {}
 
@@ -56,6 +59,43 @@ export class AppComponent {
         console.error('Error loading file:', error); // Log any error in file loading
       }
     );
+  }
+
+  loadSponsorsData() {
+    // Use HttpClient to load the Excel file as an arraybuffer
+    this.http
+      .get(this.sponsorsfilePath, { responseType: 'arraybuffer' })
+      .subscribe(
+        (response: ArrayBuffer) => {
+          console.log('File loaded successfully');
+
+          // Read the file with XLSX library
+          try {
+            const workbook = XLSX.read(new Uint8Array(response), {
+              type: 'array',
+            });
+            console.log('Workbook:', workbook); // Log the entire workbook object to inspect its structure
+
+            const sheetName = workbook.SheetNames[0]; // Get the first sheet name
+            console.log('Sheet name:', sheetName);
+
+            const sheet = workbook.Sheets[sheetName]; // Get the actual sheet
+            console.log('Sheet data:', sheet); // Log the sheet content
+
+            // Convert the sheet data to JSON
+            this.data = XLSX.utils.sheet_to_json(sheet, { defval: '' }); // Convert sheet to JSON
+            console.log('Data:', this.data); // Log the parsed data
+
+            // Calculate the total guests (Adults + Kids count)
+            this.calculateTotal();
+          } catch (err) {
+            console.error('Error reading the Excel file:', err);
+          }
+        },
+        (error: any) => {
+          console.error('Error loading file:', error); // Log any error in file loading
+        }
+      );
   }
 
   saveData() {
@@ -100,12 +140,16 @@ export class AppComponent {
   }
 
   calculateTotal(): void {
-    this.totalGuests = this.data.reduce(
-      (sum, record) =>
-        sum +
-        (parseInt(record.Adults || '0', 10) + parseInt(record.Kids || '0', 10)),
+    this.totalAdultGuests = this.data.reduce(
+      (sum, record) => sum + parseInt(record.Adults || '0', 10),
       0
     );
+    this.totalKidsGuests = this.data.reduce(
+      (sum, record) => sum + parseInt(record.Kids || '0', 10),
+      0
+    );
+
+    this.totalGuests = this.totalAdultGuests + this.totalKidsGuests;
   }
 
   openModal(): void {

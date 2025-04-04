@@ -3,9 +3,12 @@
 </header>
 <div class="container">
   <h1>2025 TAM Membership Management</h1>
+  <p>Total Adult Guests: {{ totalAdultGuests }}</p>
+  <p>Total Kid Guests: {{ totalKidsGuests }}</p>
   <p>Total Guests: {{ totalGuests }}</p>
   <!--<input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" /> -->
-  <button (click)="loadData()">Load Data</button>
+  <button (click)="loadData()">Load Membership Data</button>
+  <button (click)="loadSponsorsData()">Load Sponsors Data</button>
   <input
     type="text"
     placeholder="Search by Name, Email, or Phone"
@@ -31,20 +34,20 @@
     </thead>
     <tbody>
       <tr *ngFor="let record of filteredData; let i = index">
-        <td>{{ record["Last Name"] }}</td>
-        <td>{{ record["First Name"] }}</td>
-        <td>{{ record["Email Address"] }}</td>
-        <td>{{ record["Phone no"] }}</td>
-        <td>{{ record["Membership Level"] }}</td>
-        <td>{{ record["Payment Mode"] }}</td>
-        <td>
+        <td data-label="Last Name">{{ record["Last Name"] }}</td>
+        <td data-label="First Name">{{ record["First Name"] }}</td>
+        <td data-label="Email Address">{{ record["Email Address"] }}</td>
+        <td data-label="Phone no">{{ record["Phone no"] }}</td>
+        <td data-label="Membership Level">{{ record["Membership Level"] }}</td>
+        <td data-label="Payment Mode">{{ record["Payment Mode"] }}</td>
+        <td data-label="Checked In">
           <input
             type="checkbox"
             [(ngModel)]="record.CheckedIn"
             (change)="updateRecord(i, 'CheckedIn', $event)"
           />
         </td>
-        <td>
+        <td data-label="Adults">
           <select
             [(ngModel)]="record['Adults']"
             (change)="updateRecord(record, 'Adults', record['Adults'])"
@@ -54,7 +57,7 @@
             </option>
           </select>
         </td>
-        <td>
+        <td data-label="Kids">
           <select
             [(ngModel)]="record['Kids']"
             (change)="updateRecord(record, 'Kids', record['Kids'])"
