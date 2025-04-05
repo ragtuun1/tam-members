@@ -52,7 +52,7 @@
             [(ngModel)]="record['Adults']"
             (change)="updateRecord(record, 'Adults', record['Adults'])"
           >
-            <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">
+            <option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">
               {{ num }}
             </option>
           </select>
@@ -62,7 +62,7 @@
             [(ngModel)]="record['Kids']"
             (change)="updateRecord(record, 'Kids', record['Kids'])"
           >
-            <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">
+            <option *ngFor="let num of [1, 2, 3, 4, 5, 6]" [value]="num">
               {{ num }}
             </option>
           </select>
