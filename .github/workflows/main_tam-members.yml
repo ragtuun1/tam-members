@@ -31,6 +31,19 @@ jobs:
       - name: Copy web.config to dist folder
         run: cp web.config dist/tam-members/browser/
 
+      - name: Create package.json for Azure startup
+        run: |
+          echo '{
+            "name": "tam-members-app",
+            "version": "1.0.0",
+            "scripts": {
+              "start": "npx serve . -s -p 8080"
+            },
+            "dependencies": {
+              "serve": "^14.0.0"
+            }
+          }' > dist/tam-members/browser/package.json
+
       - name: Zip artifact for deployment
         run: zip -r release.zip dist/tam-members/browser/
 
@@ -73,3 +86,4 @@ jobs:
           app-name: "tam-member"
           slot-name: "Production"
           package: "dist/tam-members/browser/"
+          startup-command: "npm start"
