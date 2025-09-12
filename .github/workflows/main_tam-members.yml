@@ -70,6 +70,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: "tam-members"
+          app-name: "tam-member"
           slot-name: "Production"
           package: "dist/tam-members/browser/"
